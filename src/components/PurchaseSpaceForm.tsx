@@ -1,8 +1,7 @@
 import { useState } from "react";
+
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
+import { Checkbox } from "./ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +10,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "./ui/dialog";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 type PurchaseSpaceFormProps = {
   isOpen: boolean;
@@ -19,11 +27,13 @@ type PurchaseSpaceFormProps = {
 
 const PurchaseSpaceForm = ({ isOpen, onClose }: PurchaseSpaceFormProps) => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    phone: "",
-    message: "",
+    displayName: "",
+    size: "",
+    width: "",
+    country: "",
+    city: "",
+    race: "",
+    circunsidez: false,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -33,7 +43,7 @@ const PurchaseSpaceForm = ({ isOpen, onClose }: PurchaseSpaceFormProps) => {
     onClose();
   };
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -52,59 +62,86 @@ const PurchaseSpaceForm = ({ isOpen, onClose }: PurchaseSpaceFormProps) => {
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Nome Completo</Label>
+            <Label htmlFor="displayName">Display Name</Label>
             <Input
-              id="name"
-              value={formData.name}
-              onChange={(e) => handleInputChange("name", e.target.value)}
-              placeholder="Seu nome completo"
+              id="displayName"
+              value={formData.displayName}
+              onChange={(e) => handleInputChange("displayName", e.target.value)}
+              placeholder="Nome de exibição"
               required
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">E-mail</Label>
+            <Label htmlFor="size">Size</Label>
+            <Select
+              value={formData.size}
+              onValueChange={(value) => handleInputChange("size", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione o tamanho" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="small">Small</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="large">Large</SelectItem>
+                <SelectItem value="xlarge">X-Large</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="width">Width (Opcional)</Label>
             <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
-              placeholder="seu@email.com"
+              id="width"
+              value={formData.width}
+              onChange={(e) => handleInputChange("width", e.target.value)}
+              placeholder="Largura"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="country">Country</Label>
+            <Input
+              id="country"
+              value={formData.country}
+              onChange={(e) => handleInputChange("country", e.target.value)}
+              placeholder="País"
               required
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="company">Empresa</Label>
+            <Label htmlFor="city">City</Label>
             <Input
-              id="company"
-              value={formData.company}
-              onChange={(e) => handleInputChange("company", e.target.value)}
-              placeholder="Nome da sua empresa"
+              id="city"
+              value={formData.city}
+              onChange={(e) => handleInputChange("city", e.target.value)}
+              placeholder="Cidade"
               required
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="phone">Telefone</Label>
+            <Label htmlFor="race">Race</Label>
             <Input
-              id="phone"
-              value={formData.phone}
-              onChange={(e) => handleInputChange("phone", e.target.value)}
-              placeholder="(11) 99999-9999"
+              id="race"
+              value={formData.race}
+              onChange={(e) => handleInputChange("race", e.target.value)}
+              placeholder="Raça"
               required
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="message">Mensagem</Label>
-            <Textarea
-              id="message"
-              value={formData.message}
-              onChange={(e) => handleInputChange("message", e.target.value)}
-              placeholder="Conte-nos mais sobre sua necessidade..."
-              rows={3}
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="circunsidez"
+              checked={formData.circunsidez}
+              onCheckedChange={(checked) =>
+                handleInputChange("circunsidez", checked as boolean)
+              }
             />
+            <Label htmlFor="circunsidez">Circunsidez</Label>
           </div>
 
           <DialogFooter>
