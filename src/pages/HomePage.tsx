@@ -1,7 +1,12 @@
+import { useState } from "react";
+
 import DKCard from "../components/DKCard";
+import PurchaseSpaceForm from "../components/PurchaseSpaceForm";
 import { Button } from "../components/ui/button";
 
 const HomePage = () => {
+  const [isPurchaseFormOpen, setIsPurchaseFormOpen] = useState(false);
+
   // Dados mockados para demonstração
   const dks = [
     {
@@ -59,7 +64,10 @@ const HomePage = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-light text-gray-900">100 DKs</h1>
-          <Button className="bg-black hover:bg-gray-800 text-white">
+          <Button
+            className="bg-black hover:bg-gray-800 text-white"
+            onClick={() => setIsPurchaseFormOpen(true)}
+          >
             <svg
               className="w-4 h-4 mr-2"
               fill="none"
@@ -73,7 +81,7 @@ const HomePage = () => {
                 d="M12 4v16m8-8H4"
               />
             </svg>
-            Adicionar DK
+            Comprar Espaço
           </Button>
         </div>
 
@@ -89,6 +97,11 @@ const HomePage = () => {
           ))}
         </div>
       </div>
+
+      <PurchaseSpaceForm
+        isOpen={isPurchaseFormOpen}
+        onClose={() => setIsPurchaseFormOpen(false)}
+      />
     </div>
   );
 };
